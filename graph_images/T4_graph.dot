@@ -1,0 +1,16 @@
+digraph G {
+  rankdir=LR;
+  n0 [label="var:high"];
+  n1 [label="var:open"];
+  n2 [label="var:close"];
+  n3 [label="Greater"];
+  n4 [label="Sub"];
+  n5 [label="var:open"];
+  n6 [label="Div"];
+  n1 -> n3;
+  n2 -> n3;
+  n0 -> n4;
+  n3 -> n4;
+  n4 -> n6;
+  n5 -> n6;
+}

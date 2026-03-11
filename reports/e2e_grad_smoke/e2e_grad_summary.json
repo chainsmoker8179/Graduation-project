@@ -1,0 +1,347 @@
+{
+  "setup": {
+    "provider_uri": "/home/chainsmoker/.qlib/qlib_data/cn_data",
+    "market": "all",
+    "label_expr": "Ref($close, -2) / Ref($close, -1) - 1",
+    "step_len": 80,
+    "batch_size": 8,
+    "seed": 0,
+    "device": "cpu",
+    "full_factor_count": 157,
+    "subset_factor_count": 19
+  },
+  "batch_summary": {
+    "full_e2e": {
+      "batches": 2,
+      "pass_batches": 2,
+      "splits": {
+        "train": {
+          "batches": 1,
+          "pass_batches": 1,
+          "mean_loss": 0.3980148434638977,
+          "mean_grad_mean_abs": 0.0008209503721445799,
+          "pass_rate": 1.0
+        },
+        "test": {
+          "batches": 1,
+          "pass_batches": 1,
+          "mean_loss": 0.3010627329349518,
+          "mean_grad_mean_abs": 0.0016486486420035362,
+          "pass_rate": 1.0
+        }
+      },
+      "pass_rate": 1.0
+    },
+    "subset_e2e": {
+      "batches": 2,
+      "pass_batches": 2,
+      "splits": {
+        "train": {
+          "batches": 1,
+          "pass_batches": 1,
+          "mean_loss": 0.23258179426193237,
+          "mean_grad_mean_abs": 0.0003233461466152221,
+          "pass_rate": 1.0
+        },
+        "test": {
+          "batches": 1,
+          "pass_batches": 1,
+          "mean_loss": 0.2509540021419525,
+          "mean_grad_mean_abs": 0.0011700043687596917,
+          "pass_rate": 1.0
+        }
+      },
+      "pass_rate": 1.0
+    }
+  },
+  "suspicious_columns": {
+    "full_e2e": {
+      "open": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 1.1135954504233048
+      },
+      "high": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 0.8344217000801334
+      },
+      "low": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 0.9426900827373728
+      },
+      "close": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 9.7358937930999
+      },
+      "volume": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 1.0576139904052468
+      }
+    },
+    "subset_e2e": {
+      "open": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 0.7267772965923928
+      },
+      "high": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 1.9105161341845456
+      },
+      "low": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 0.5801091267265197
+      },
+      "close": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 2.2708782938001293
+      },
+      "volume": {
+        "num_batches": 2,
+        "low_ratio": 0.0,
+        "is_suspicious": false,
+        "mean_relative_scaled_score": 0.8212029110275287
+      }
+    }
+  },
+  "probe_summary": {
+    "KUP": {
+      "group_name": "greater_less_pair",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 4.348715663127223e-07,
+      "mean_expected_grad_mean_abs": 7.247859154328277e-07,
+      "expected_inputs": [
+        "open",
+        "high",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "KUP2": {
+      "group_name": "greater_less_pair",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.0006153389549581334,
+      "mean_expected_grad_mean_abs": 0.000801022998833408,
+      "expected_inputs": [
+        "open",
+        "high",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "KLOW": {
+      "group_name": "greater_less_pair",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 3.7154419629814583e-07,
+      "mean_expected_grad_mean_abs": 6.192402868994881e-07,
+      "expected_inputs": [
+        "open",
+        "low",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "KLOW2": {
+      "group_name": "greater_less_pair",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.0006724459235556424,
+      "mean_expected_grad_mean_abs": 0.0008601211253941681,
+      "expected_inputs": [
+        "open",
+        "low",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "SUMP5": {
+      "group_name": "greater_relu_close",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.0006602016364922747,
+      "mean_expected_grad_mean_abs": 0.0033010078477673233,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "SUMN5": {
+      "group_name": "greater_relu_close",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.0006098847661633044,
+      "mean_expected_grad_mean_abs": 0.0030494238599203527,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "SUMD5": {
+      "group_name": "greater_relu_close",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.0005323249934008345,
+      "mean_expected_grad_mean_abs": 0.002661624923348427,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "VSUMP5": {
+      "group_name": "greater_relu_volume",
+      "num_batches": 2,
+      "pass_rate": 0.0,
+      "mean_grad_mean_abs": 4.816934351392632e-11,
+      "mean_expected_grad_mean_abs": 2.408467314474194e-10,
+      "expected_inputs": [
+        "volume"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "VSUMN5": {
+      "group_name": "greater_relu_volume",
+      "num_batches": 2,
+      "pass_rate": 0.0,
+      "mean_grad_mean_abs": 5.517516825370716e-11,
+      "mean_expected_grad_mean_abs": 2.758758360643654e-10,
+      "expected_inputs": [
+        "volume"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "VSUMD5": {
+      "group_name": "greater_relu_volume",
+      "num_batches": 2,
+      "pass_rate": 0.0,
+      "mean_grad_mean_abs": 1.202788597887139e-10,
+      "mean_expected_grad_mean_abs": 6.013943232296981e-10,
+      "expected_inputs": [
+        "volume"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "MAX5": {
+      "group_name": "rolling_maxmin",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 5.207847698329715e-05,
+      "mean_expected_grad_mean_abs": 0.00013019619473197963,
+      "expected_inputs": [
+        "high",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "MIN5": {
+      "group_name": "rolling_maxmin",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 4.637511483451817e-05,
+      "mean_expected_grad_mean_abs": 0.00011593779890972655,
+      "expected_inputs": [
+        "low",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "RSV5": {
+      "group_name": "rolling_maxmin",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 0.00042889009637292475,
+      "mean_expected_grad_mean_abs": 0.0007148168491160808,
+      "expected_inputs": [
+        "high",
+        "low",
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "QTLU5": {
+      "group_name": "quantile",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 1.8895333141699666e-05,
+      "mean_expected_grad_mean_abs": 9.447665070183575e-05,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "QTLD5": {
+      "group_name": "quantile",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 1.8169944269175176e-05,
+      "mean_expected_grad_mean_abs": 9.084972225537058e-05,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "RANK5": {
+      "group_name": "rank",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 9.727150973048992e-05,
+      "mean_expected_grad_mean_abs": 0.00048635751591064036,
+      "expected_inputs": [
+        "close"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "IMAX5": {
+      "group_name": "idx",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 2.5610264856368303e-05,
+      "mean_expected_grad_mean_abs": 0.0001280513206438627,
+      "expected_inputs": [
+        "high"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "IMIN5": {
+      "group_name": "idx",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 2.6551270821073558e-05,
+      "mean_expected_grad_mean_abs": 0.00013275635137688369,
+      "expected_inputs": [
+        "low"
+      ],
+      "suspicious_expected_columns": []
+    },
+    "IMXD5": {
+      "group_name": "idx",
+      "num_batches": 2,
+      "pass_rate": 1.0,
+      "mean_grad_mean_abs": 6.486269921879284e-05,
+      "mean_expected_grad_mean_abs": 0.0001621567425900139,
+      "expected_inputs": [
+        "high",
+        "low"
+      ],
+      "suspicious_expected_columns": []
+    }
+  }
+}
