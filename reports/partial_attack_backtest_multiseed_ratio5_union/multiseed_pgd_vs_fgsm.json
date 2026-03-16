@@ -1,0 +1,22 @@
+{
+  "annualized_excess_return_with_cost": {
+    "pgd_more_negative_ratio": 1.0,
+    "fgsm_mean": -0.2530968996998298,
+    "pgd_mean": -0.3623606335521026
+  },
+  "max_drawdown_with_cost": {
+    "pgd_more_negative_ratio": 0.6,
+    "fgsm_mean": -0.04930151952254602,
+    "pgd_mean": -0.054395432604367445
+  },
+  "rank_ic_mean": {
+    "pgd_more_negative_ratio": 1.0,
+    "fgsm_mean": -0.013097990184035119,
+    "pgd_mean": -0.014508395446027101
+  },
+  "information_ratio_with_cost": {
+    "pgd_more_negative_ratio": 1.0,
+    "fgsm_mean": -1.7747215318345435,
+    "pgd_mean": -2.6983007426915195
+  }
+}

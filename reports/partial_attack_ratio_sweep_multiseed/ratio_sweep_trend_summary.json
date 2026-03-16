@@ -1,0 +1,466 @@
+{
+  "asset_union": {
+    "ratio_1_union_rows": 51923,
+    "ratio_5_union_rows": 237088,
+    "ratio_10_union_rows": 428802,
+    "all_ratio_union_rows": 591791,
+    "requested_keys_rows": 591791,
+    "matched_reference_rows": 590504,
+    "exported_sample_rows": 574386,
+    "raw_window_len": 80,
+    "raw_feature_dim": 5,
+    "missing_raw_keys": 16118
+  },
+  "ratios": {
+    "1%": {
+      "seed_count": 5,
+      "attackable_count_mean": 10281,
+      "attackable_count_std": 17.349351572897472,
+      "selected_available_count_mean": 10281,
+      "partial_clean_minus_reference_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -5.104354952889523e-05,
+          "std": 0.009283056891718912,
+          "negative_ratio": 0.4,
+          "positive_ratio": 0.6
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.00039865581286059327,
+          "std": 0.0037227661577015356,
+          "negative_ratio": 0.4,
+          "positive_ratio": 0.6
+        },
+        "rank_ic_mean": {
+          "mean": 5.212857323094178e-05,
+          "std": 6.99027971013687e-05,
+          "negative_ratio": 0.2,
+          "positive_ratio": 0.8
+        },
+        "information_ratio_with_cost": {
+          "mean": 0.014059032398376737,
+          "std": 0.05755057370872456,
+          "negative_ratio": 0.2,
+          "positive_ratio": 0.8
+        }
+      },
+      "partial_fgsm_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.20258796145469735,
+          "std": 0.037445511877158194,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.04261880626205758,
+          "std": 0.013778997470786711,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.002761476988798489,
+          "std": 0.00012421924130964591,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -1.3537567724005621,
+          "std": 0.3213167164106633,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      },
+      "partial_pgd_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.3013856614583959,
+          "std": 0.019828969211220387,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.043812429385448576,
+          "std": 0.01617320536481032,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.0030775485869503627,
+          "std": 0.00012439483758876321,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -2.138249210533388,
+          "std": 0.16635511036852182,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      }
+    },
+    "5%": {
+      "seed_count": 5,
+      "attackable_count_mean": 50875,
+      "attackable_count_std": 18.027756377319946,
+      "selected_available_count_mean": 50875,
+      "partial_clean_minus_reference_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.017520548305227812,
+          "std": 0.02788615596511925,
+          "negative_ratio": 0.6,
+          "positive_ratio": 0.4
+        },
+        "max_drawdown_with_cost": {
+          "mean": 0.00013332242180206234,
+          "std": 0.005384753158102373,
+          "negative_ratio": 0.6,
+          "positive_ratio": 0.4
+        },
+        "rank_ic_mean": {
+          "mean": 0.0001666967871762265,
+          "std": 0.0001654311815900907,
+          "negative_ratio": 0.2,
+          "positive_ratio": 0.8
+        },
+        "information_ratio_with_cost": {
+          "mean": -0.09017526991737279,
+          "std": 0.22266324853988953,
+          "negative_ratio": 0.6,
+          "positive_ratio": 0.4
+        }
+      },
+      "partial_fgsm_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.2530968996998298,
+          "std": 0.04630762229750141,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.04930151952254608,
+          "std": 0.004611132051159465,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.013097990184035183,
+          "std": 0.00014592540625729843,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -1.7747215318345437,
+          "std": 0.3547269869020741,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      },
+      "partial_pgd_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.3623606335521026,
+          "std": 0.03500051393974106,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.05439543260436749,
+          "std": 0.003976890828470188,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.01450839544602715,
+          "std": 0.00018601567768347313,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -2.6983007426915195,
+          "std": 0.2908056921326385,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      }
+    },
+    "10%": {
+      "seed_count": 5,
+      "attackable_count_mean": 101670.8,
+      "attackable_count_std": 34.651118308071965,
+      "selected_available_count_mean": 101670.8,
+      "partial_clean_minus_reference_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.004093622719598633,
+          "std": 0.02311995935131399,
+          "negative_ratio": 0.4,
+          "positive_ratio": 0.6
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.0033337725132132623,
+          "std": 0.007426591249279042,
+          "negative_ratio": 0.8,
+          "positive_ratio": 0.2
+        },
+        "rank_ic_mean": {
+          "mean": 0.00014660361988647896,
+          "std": 0.00017378502447412968,
+          "negative_ratio": 0.2,
+          "positive_ratio": 0.8
+        },
+        "information_ratio_with_cost": {
+          "mean": -0.015132230799843428,
+          "std": 0.17246105621823524,
+          "negative_ratio": 0.4,
+          "positive_ratio": 0.6
+        }
+      },
+      "partial_fgsm_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.3312588013912826,
+          "std": 0.0124590466704438,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.049969315529827876,
+          "std": 0.010383118833936477,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.02543768760462151,
+          "std": 0.0004725537190040973,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -2.3932043933440243,
+          "std": 0.09000291171120058,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      },
+      "partial_pgd_minus_partial_clean": {
+        "annualized_excess_return_with_cost": {
+          "mean": -0.41284875170077784,
+          "std": 0.02328095818784034,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "max_drawdown_with_cost": {
+          "mean": -0.06610825000279937,
+          "std": 0.014080351686754736,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "rank_ic_mean": {
+          "mean": -0.028142244684884316,
+          "std": 0.0004944287972518628,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        },
+        "information_ratio_with_cost": {
+          "mean": -3.0935101315678395,
+          "std": 0.1923614206533856,
+          "negative_ratio": 1.0,
+          "positive_ratio": 0.0
+        }
+      }
+    }
+  },
+  "trend_checks": {
+    "partial_fgsm_minus_partial_clean": {
+      "annualized_excess_return_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.20258796145469735,
+          "5%": -0.2530968996998298,
+          "10%": -0.3312588013912826
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "max_drawdown_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.04261880626205758,
+          "5%": -0.04930151952254608,
+          "10%": -0.049969315529827876
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "rank_ic_mean": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.002761476988798489,
+          "5%": -0.013097990184035183,
+          "10%": -0.02543768760462151
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "information_ratio_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -1.3537567724005621,
+          "5%": -1.7747215318345437,
+          "10%": -2.3932043933440243
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      }
+    },
+    "partial_pgd_minus_partial_clean": {
+      "annualized_excess_return_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.3013856614583959,
+          "5%": -0.3623606335521026,
+          "10%": -0.41284875170077784
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "max_drawdown_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.043812429385448576,
+          "5%": -0.05439543260436749,
+          "10%": -0.06610825000279937
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "rank_ic_mean": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -0.0030775485869503627,
+          "5%": -0.01450839544602715,
+          "10%": -0.028142244684884316
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      },
+      "information_ratio_with_cost": {
+        "ratio_order": [
+          "1%",
+          "5%",
+          "10%"
+        ],
+        "mean_by_ratio": {
+          "1%": -2.138249210533388,
+          "5%": -2.6983007426915195,
+          "10%": -3.0935101315678395
+        },
+        "nonincreasing": true,
+        "strictly_more_negative_at_10_than_1": true
+      }
+    }
+  },
+  "pgd_vs_fgsm": {
+    "1%": {
+      "annualized_excess_return_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.20258796145469735,
+        "pgd_mean": -0.3013856614583959,
+        "pgd_minus_fgsm_mean": -0.09879770000369856
+      },
+      "max_drawdown_with_cost": {
+        "pgd_more_negative_ratio": 0.6,
+        "fgsm_mean": -0.04261880626205758,
+        "pgd_mean": -0.043812429385448576,
+        "pgd_minus_fgsm_mean": -0.0011936231233910023
+      },
+      "rank_ic_mean": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.002761476988798489,
+        "pgd_mean": -0.0030775485869503627,
+        "pgd_minus_fgsm_mean": -0.0003160715981518736
+      },
+      "information_ratio_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -1.3537567724005621,
+        "pgd_mean": -2.138249210533388,
+        "pgd_minus_fgsm_mean": -0.784492438132826
+      }
+    },
+    "5%": {
+      "annualized_excess_return_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.2530968996998298,
+        "pgd_mean": -0.3623606335521026,
+        "pgd_minus_fgsm_mean": -0.10926373385227278
+      },
+      "max_drawdown_with_cost": {
+        "pgd_more_negative_ratio": 0.6,
+        "fgsm_mean": -0.04930151952254608,
+        "pgd_mean": -0.05439543260436749,
+        "pgd_minus_fgsm_mean": -0.005093913081821411
+      },
+      "rank_ic_mean": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.013097990184035183,
+        "pgd_mean": -0.01450839544602715,
+        "pgd_minus_fgsm_mean": -0.0014104052619919676
+      },
+      "information_ratio_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -1.7747215318345437,
+        "pgd_mean": -2.6983007426915195,
+        "pgd_minus_fgsm_mean": -0.923579210856976
+      }
+    },
+    "10%": {
+      "annualized_excess_return_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.3312588013912826,
+        "pgd_mean": -0.41284875170077784,
+        "pgd_minus_fgsm_mean": -0.08158995030949523
+      },
+      "max_drawdown_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.049969315529827876,
+        "pgd_mean": -0.06610825000279937,
+        "pgd_minus_fgsm_mean": -0.016138934472971496
+      },
+      "rank_ic_mean": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -0.02543768760462151,
+        "pgd_mean": -0.028142244684884316,
+        "pgd_minus_fgsm_mean": -0.0027045570802628053
+      },
+      "information_ratio_with_cost": {
+        "pgd_more_negative_ratio": 1.0,
+        "fgsm_mean": -2.3932043933440243,
+        "pgd_mean": -3.0935101315678395,
+        "pgd_minus_fgsm_mean": -0.7003057382238151
+      }
+    }
+  }
+}
