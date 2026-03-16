@@ -1,0 +1,34 @@
+{
+  "num_samples": 7,
+  "clean_gate": {
+    "clean_loss": 0.003037473186850548,
+    "clean_grad_mean_abs": 3.0483975933748297e-05,
+    "clean_grad_max_abs": 0.004010957200080156,
+    "clean_grad_finite_rate": 1.0,
+    "feature_finite_rate": 1.0,
+    "clean_pred_mean": -0.019319580867886543,
+    "clean_pred_std": 0.05099232867360115,
+    "reference_score_mean": 0.05115365982055664,
+    "reference_score_std": 0.07684257626533508,
+    "spearman_to_reference": 0.42857142857142866
+  },
+  "clean_loss": 0.003037473652511835,
+  "fgsm_loss": 0.03213169053196907,
+  "pgd_loss": 0.056649159640073776,
+  "fgsm_adv_success": true,
+  "pgd_adv_success": true,
+  "fgsm_mean_abs_pred_shift": 0.12492280453443527,
+  "pgd_mean_abs_pred_shift": 0.19364824891090393,
+  "fgsm_usage": {
+    "price_ratio_mean": 0.4285714030265808,
+    "price_ratio_max": 1.000005841255188,
+    "volume_ratio_mean": 1.0,
+    "volume_ratio_max": 1.0000029802322388
+  },
+  "pgd_usage": {
+    "price_ratio_mean": 0.3227677345275879,
+    "price_ratio_max": 1.0000056028366089,
+    "volume_ratio_mean": 0.7843748331069946,
+    "volume_ratio_max": 1.0000029802322388
+  }
+}

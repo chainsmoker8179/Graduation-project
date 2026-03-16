@@ -1,0 +1,44 @@
+{
+  "num_samples": 62,
+  "clean_gate": {
+    "clean_loss": 0.01622363179922104,
+    "clean_grad_mean_abs": 1.1747773896786384e-05,
+    "clean_grad_max_abs": 0.006016450002789497,
+    "clean_grad_finite_rate": 1.0,
+    "feature_finite_rate": 1.0,
+    "clean_pred_mean": -0.02005239762365818,
+    "clean_pred_std": 0.12741704285144806,
+    "reference_score_mean": -0.004523769486695528,
+    "reference_score_std": 0.12685269117355347,
+    "spearman_to_reference": 0.10035002895923044,
+    "feature_mae_to_reference": 0.034524187445640564,
+    "feature_rmse_to_reference": 0.09823775291442871,
+    "feature_max_abs_to_reference": 0.6087703704833984
+  },
+  "clean_gate_thresholds": {
+    "min_clean_grad_mean_abs": 1e-06,
+    "min_spearman_to_reference": 0.09,
+    "max_feature_mae_to_reference": 0.05,
+    "max_feature_rmse_to_reference": 0.12,
+    "max_feature_max_abs_to_reference": 0.7
+  },
+  "clean_loss": 0.01622362993657589,
+  "fgsm_loss": 0.07544519752264023,
+  "pgd_loss": 0.10530548542737961,
+  "fgsm_adv_success": true,
+  "pgd_adv_success": true,
+  "fgsm_mean_abs_pred_shift": 0.1521698385477066,
+  "pgd_mean_abs_pred_shift": 0.21399495005607605,
+  "fgsm_usage": {
+    "price_ratio_mean": 0.4282258152961731,
+    "price_ratio_max": 1.000005841255188,
+    "volume_ratio_mean": 1.0,
+    "volume_ratio_max": 1.0000029802322388
+  },
+  "pgd_usage": {
+    "price_ratio_mean": 0.3275201618671417,
+    "price_ratio_max": 1.000005841255188,
+    "volume_ratio_mean": 0.8162801265716553,
+    "volume_ratio_max": 1.0000029802322388
+  }
+}
