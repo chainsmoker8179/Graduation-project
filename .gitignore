@@ -6,3 +6,8 @@ __pycache__/
 *.pyc
 mlruns/
 home/
+
+# Generated experiment artifacts that should stay outside git.
+artifacts/
+reports/**/attack_mask.csv
+reports/**/*.pkl
