@@ -1,0 +1,5 @@
+metric,comparison,delta_mean,delta_median,p_value,sample_size
+excess_return_with_cost,partial_fgsm_vs_partial_clean,-0.0011765651968648017,-0.0010089247713375002,0.009722641655052367,201
+excess_return_with_cost,partial_pgd_vs_partial_clean,-0.00167360457920694,-0.0010542745429511003,0.0022851739827123197,201
+rank_ic,partial_fgsm_vs_partial_clean,-0.012988216955523435,-0.012562641277643859,1.4579385692155708e-34,200
+rank_ic,partial_pgd_vs_partial_clean,-0.014377739550805202,-0.014157426242647195,1.4361464127613523e-34,200

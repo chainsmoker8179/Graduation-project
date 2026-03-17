@@ -146,3 +146,107 @@ def load_multiseed_stability_data(report_dir: Path) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     _write_plot_data(df, repo_root, "fig05_multiseed_ratio5.csv")
     return df
+
+
+def _comparison_to_attacker(comparison: str) -> str:
+    if "fgsm" in comparison.lower():
+        return "FGSM"
+    if "pgd" in comparison.lower():
+        return "PGD"
+    return comparison
+
+
+def load_significance_summary_data(report_dir: Path) -> pd.DataFrame:
+    report_dir = Path(report_dir)
+    repo_root = _repo_root_from_report_dir(report_dir)
+    target_dir = report_dir / "lstm_single_model_evidence"
+    rows: list[dict[str, object]] = []
+
+    daily_path = target_dir / "significance_daily_metrics.csv"
+    if daily_path.exists():
+        daily_df = pd.read_csv(daily_path)
+        for _, row in daily_df.iterrows():
+            rows.append(
+                {
+                    "source": "daily",
+                    "comparison": row["comparison"],
+                    "attacker": _comparison_to_attacker(str(row["comparison"])),
+                    "metric": row["metric"],
+                    "delta_mean": float(row["delta_mean"]),
+                    "p_value": float(row["p_value"]) if "p_value" in row else None,
+                }
+            )
+
+    bootstrap_path = target_dir / "significance_block_bootstrap.json"
+    if bootstrap_path.exists():
+        payload = json.loads(bootstrap_path.read_text(encoding="utf-8"))
+        for comparison, metric_map in payload.items():
+            for metric, summary in metric_map.items():
+                rows.append(
+                    {
+                        "source": "bootstrap",
+                        "comparison": comparison,
+                        "attacker": _comparison_to_attacker(comparison),
+                        "metric": metric,
+                        "delta_mean": float(summary["bootstrap_mean"]),
+                        "ci95_lower": float(summary["ci95_lower"]),
+                        "ci95_upper": float(summary["ci95_upper"]),
+                    }
+                )
+
+    df = pd.DataFrame(rows)
+    _write_plot_data(df, repo_root, "fig07_significance_summary.csv")
+    return df
+
+
+def load_ranking_mechanism_data(report_dir: Path) -> pd.DataFrame:
+    report_dir = Path(report_dir)
+    repo_root = _repo_root_from_report_dir(report_dir)
+    target_dir = report_dir / "lstm_single_model_evidence"
+    rows: list[dict[str, object]] = []
+
+    overlap_path = target_dir / "ranking_overlap_daily.csv"
+    if overlap_path.exists():
+        overlap_df = pd.read_csv(overlap_path)
+        for _, row in overlap_df.iterrows():
+            rows.append(
+                {
+                    "metric": "topk_overlap",
+                    "value": float(row["topk_overlap"]),
+                    "comparison": row["comparison"],
+                    "attacker": _comparison_to_attacker(str(row["comparison"])),
+                    "seed": int(row["seed"]),
+                }
+            )
+
+    correlation_path = target_dir / "ranking_correlation_daily.csv"
+    if correlation_path.exists():
+        correlation_df = pd.read_csv(correlation_path)
+        for _, row in correlation_df.iterrows():
+            rows.append(
+                {
+                    "metric": "spearman",
+                    "value": float(row["spearman"]),
+                    "comparison": row["comparison"],
+                    "attacker": _comparison_to_attacker(str(row["comparison"])),
+                    "seed": int(row["seed"]),
+                }
+            )
+
+    shift_path = target_dir / "rank_shift_summary.csv"
+    if shift_path.exists():
+        shift_df = pd.read_csv(shift_path)
+        for _, row in shift_df.iterrows():
+            rows.append(
+                {
+                    "metric": "rank_shift_abs_mean",
+                    "value": float(row["rank_shift_abs_mean"]),
+                    "comparison": row["comparison"],
+                    "attacker": _comparison_to_attacker(str(row["comparison"])),
+                    "seed": int(row["seed"]),
+                }
+            )
+
+    df = pd.DataFrame(rows)
+    _write_plot_data(df, repo_root, "fig08_ranking_mechanism.csv")
+    return df

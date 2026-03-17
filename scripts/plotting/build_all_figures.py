@@ -14,6 +14,8 @@ from scripts.plotting.fig03_sample_shift_cdf import build_figure as build_fig03
 from scripts.plotting.fig04_cumulative_return import build_figure as build_fig04
 from scripts.plotting.fig05_multiseed_stability import build_figure as build_fig05
 from scripts.plotting.fig06_ratio_sensitivity import build_figure as build_fig06
+from scripts.plotting.fig07_significance_summary import build_figure as build_fig07
+from scripts.plotting.fig08_ranking_mechanism import build_figure as build_fig08
 
 
 FIGURE_BUILDERS = {
@@ -23,6 +25,8 @@ FIGURE_BUILDERS = {
     "fig04": build_fig04,
     "fig05": build_fig05,
     "fig06": build_fig06,
+    "fig07": build_fig07,
+    "fig08": build_fig08,
 }
 
 
