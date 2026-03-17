@@ -1,6 +1,0 @@
-{
-  "d_feat": 20,
-  "hidden_size": 64,
-  "num_layers": 2,
-  "dropout": 0
-}
