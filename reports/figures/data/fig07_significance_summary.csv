@@ -1,0 +1,11 @@
+source,comparison,attacker,metric,delta_mean,p_value,ci95_lower,ci95_upper
+daily,partial_fgsm_vs_partial_clean,FGSM,excess_return_with_cost,-0.0011765651968648,0.0097226416550523,,
+daily,partial_pgd_vs_partial_clean,PGD,excess_return_with_cost,-0.0016736045792069,0.0022851739827123,,
+daily,partial_fgsm_vs_partial_clean,FGSM,rank_ic,-0.0129882169555234,1.4579385692155708e-34,,
+daily,partial_pgd_vs_partial_clean,PGD,rank_ic,-0.0143777395508052,1.4361464127613523e-34,,
+bootstrap,partial_fgsm_vs_partial_clean,FGSM,annualized_excess_return_with_cost,-0.29961751889768123,,-0.5353533155154605,-0.07013888498834357
+bootstrap,partial_fgsm_vs_partial_clean,FGSM,information_ratio_with_cost,-2.1098449251353806,,-3.927906425005821,-0.2705202247492335
+bootstrap,partial_fgsm_vs_partial_clean,FGSM,max_drawdown_with_cost,-0.027086191796105864,,-0.11677154834856192,0.022199367624317855
+bootstrap,partial_pgd_vs_partial_clean,PGD,annualized_excess_return_with_cost,-0.42500038080881736,,-0.7454315539332403,-0.1555586554726601
+bootstrap,partial_pgd_vs_partial_clean,PGD,information_ratio_with_cost,-3.2020642461920024,,-5.3359878871185265,-1.109486390774308
+bootstrap,partial_pgd_vs_partial_clean,PGD,max_drawdown_with_cost,-0.05841449603025861,,-0.157752144446682,0.0076179768786050536
