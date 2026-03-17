@@ -1,0 +1,25 @@
+{
+  "model_name": "lstm",
+  "qlib_model_class": "LSTM",
+  "qlib_model_module": "qlib.contrib.model.pytorch_lstm_ts",
+  "model_kwargs": {
+    "d_feat": 20,
+    "hidden_size": 64,
+    "num_layers": 2,
+    "dropout": 0.0,
+    "batch_size": 1000,
+    "n_epochs": 200,
+    "lr": 0.001,
+    "metric": "loss",
+    "early_stop": 10,
+    "loss": "mse",
+    "optimizer": "adam",
+    "n_jobs": 20,
+    "GPU": 0,
+    "seed": null
+  },
+  "feature_spec": {
+    "d_feat": 20,
+    "step_len": 20
+  }
+}
