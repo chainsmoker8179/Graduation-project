@@ -1,0 +1,24 @@
+# LSTM 白盒攻击 Smoke 结果
+
+- 样本数：8
+- 约束模式：physical_stat
+- clean_loss：0.06113984
+- fgsm_loss：0.16900462
+- pgd_loss：0.16203253
+- objective_clean：0.06113984
+- objective_fgsm：-4.93170834
+- objective_pgd：0.07481073
+- clean Spearman 对齐：0.7380952380952381
+- clean 特征 MAE：0.03479895740747452
+- clean 特征 RMSE：0.09839708358049393
+- clean gate 阈值：`{'min_clean_grad_mean_abs': 1e-06, 'min_spearman_to_reference': 0.09, 'max_feature_mae_to_reference': 0.05, 'max_feature_rmse_to_reference': 0.12, 'max_feature_max_abs_to_reference': 0.7}`
+- FGSM 平均预测偏移：0.17621307
+- PGD 平均预测偏移：0.17568615
+- FGSM 物理约束满足：True
+- PGD 物理约束满足：True
+- FGSM strict success：False
+- PGD strict success：True
+- FGSM penalty(ret/candle/vol)：4.65705633 / 0.88731313 / 0.00000000
+- PGD penalty(ret/candle/vol)：0.07151783 / 0.03140794 / 0.00000000
+- 样本级明细：`reports/lstm_whitebox_attack_constraints_verify/sample_metrics.csv`
+- 汇总 JSON：`reports/lstm_whitebox_attack_constraints_verify/attack_summary.json`

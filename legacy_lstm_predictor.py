@@ -35,13 +35,24 @@ def _load_json(path: str | Path) -> dict[str, Any]:
         return json.load(f)
 
 
+def _extract_lstm_arch_config(config: dict[str, Any]) -> dict[str, Any]:
+    model_kwargs = config.get("model_kwargs")
+    if isinstance(model_kwargs, dict):
+        merged = dict(model_kwargs)
+        feature_spec = config.get("feature_spec")
+        if isinstance(feature_spec, dict) and "d_feat" not in merged and "d_feat" in feature_spec:
+            merged["d_feat"] = feature_spec["d_feat"]
+        return merged
+    return config
+
+
 def load_legacy_lstm_from_files(
     config_path: str | Path,
     state_dict_path: str | Path,
     *,
     map_location: str | torch.device = "cpu",
 ) -> LegacyLSTMPredictor:
-    config = _load_json(config_path)
+    config = _extract_lstm_arch_config(_load_json(config_path))
     model = LegacyLSTMPredictor(
         d_feat=config["d_feat"],
         hidden_size=config["hidden_size"],

@@ -2,12 +2,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from legacy_lstm_attack_core import compute_constrained_attack_objective
 from scripts.run_lstm_whitebox_attack import (
     CleanGateMetrics,
     CleanGateThresholds,
     compute_input_gradients,
     fgsm_maximize_mse,
+    parse_args,
     pgd_maximize_mse,
+    resolve_model_config_path,
     run_clean_gate,
     validate_clean_gate,
 )
@@ -102,6 +105,73 @@ def test_pgd_increases_mse_within_relative_budget():
     assert torch.all((adv[..., 4:] - x[..., 4:]).abs() <= x[..., 4:].abs() * 0.02 + 1e-6)
 
 
+def test_physical_fgsm_preserves_kline_constraints():
+    model = ToyPredictor()
+    x, y = _make_batch()
+
+    adv = fgsm_maximize_mse(
+        model=model,
+        x=x,
+        y=y,
+        price_epsilon=0.01,
+        volume_epsilon=0.02,
+        constraint_mode="physical",
+    )
+
+    assert torch.all(adv[..., 1] >= torch.maximum(adv[..., 0], adv[..., 3]))
+    assert torch.all(adv[..., 2] <= torch.minimum(adv[..., 0], adv[..., 3]))
+    assert torch.all(adv[..., 2] <= adv[..., 1])
+    assert torch.all((adv[..., :4] - x[..., :4]).abs() <= x[..., :4].abs() * 0.01 + 1e-6)
+    assert torch.all((adv[..., 4:] - x[..., 4:]).abs() <= x[..., 4:].abs() * 0.02 + 1e-6)
+
+
+def test_physical_stat_attack_preserves_constraints_and_changes_loss():
+    model = ToyPredictor()
+    x, y = _make_batch()
+
+    x_var = x.clone().requires_grad_(True)
+    objective = compute_constrained_attack_objective(
+        model=model,
+        x_adv=x_var,
+        y=y,
+        x_clean=x,
+        tau_ret=0.005,
+        tau_body=0.005,
+        tau_range=0.01,
+        tau_vol=0.05,
+        lambda_ret=1.0,
+        lambda_candle=0.5,
+        lambda_vol=0.3,
+    )
+    objective.objective.backward()
+    assert x_var.grad is not None
+    assert x_var.grad.abs().mean().item() > 0
+
+    clean_loss = F.mse_loss(model(x), y)
+    adv = fgsm_maximize_mse(
+        model=model,
+        x=x,
+        y=y,
+        price_epsilon=0.01,
+        volume_epsilon=0.02,
+        constraint_mode="physical_stat",
+        tau_ret=0.005,
+        tau_body=0.005,
+        tau_range=0.01,
+        tau_vol=0.05,
+        lambda_ret=1.0,
+        lambda_candle=0.5,
+        lambda_vol=0.3,
+    )
+    adv_loss = F.mse_loss(model(adv), y)
+
+    assert adv.shape == x.shape
+    assert adv_loss.item() > clean_loss.item()
+    assert torch.all(adv[..., 1] >= torch.maximum(adv[..., 0], adv[..., 3]))
+    assert torch.all(adv[..., 2] <= torch.minimum(adv[..., 0], adv[..., 3]))
+    assert torch.all(adv[..., 2] <= adv[..., 1])
+
+
 def test_clean_gate_reports_feature_alignment_metrics():
     model = ToyPipeline()
     x, y = _make_batch()
@@ -153,3 +223,57 @@ def test_validate_clean_gate_rejects_low_alignment_thresholds():
         assert "feature_mae" in message.lower()
     else:
         raise AssertionError("validate_clean_gate should reject low alignment metrics")
+
+
+def test_parse_args_accepts_constraint_mode_and_penalty_hparams():
+    args = parse_args(
+        [
+            "--constraint-mode",
+            "physical_stat",
+            "--tau-ret",
+            "0.006",
+            "--tau-body",
+            "0.007",
+            "--tau-range",
+            "0.02",
+            "--tau-vol",
+            "0.06",
+            "--lambda-ret",
+            "1.1",
+            "--lambda-candle",
+            "0.6",
+            "--lambda-vol",
+            "0.4",
+        ]
+    )
+
+    assert args.constraint_mode == "physical_stat"
+    assert args.tau_ret == 0.006
+    assert args.tau_body == 0.007
+    assert args.tau_range == 0.02
+    assert args.tau_vol == 0.06
+    assert args.lambda_ret == 1.1
+    assert args.lambda_candle == 0.6
+    assert args.lambda_vol == 0.4
+
+
+def test_parse_args_uses_tuned_default_penalty_weights():
+    args = parse_args([])
+
+    assert args.lambda_ret == 0.8
+    assert args.lambda_candle == 0.4
+    assert args.lambda_vol == 0.3
+
+
+def test_resolve_model_config_path_falls_back_to_state_dict_sibling(tmp_path):
+    state_dict_path = tmp_path / "lstm_state_dict.pt"
+    sibling_config_path = tmp_path / "model_config.json"
+    state_dict_path.write_bytes(b"placeholder")
+    sibling_config_path.write_text("{}", encoding="utf-8")
+
+    resolved = resolve_model_config_path(
+        config_path=tmp_path / "missing_config.json",
+        state_dict_path=state_dict_path,
+    )
+
+    assert resolved == sibling_config_path
