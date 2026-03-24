@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import inspect
 import json
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,36 @@ def _resolve_device(device: torch.device | str | None) -> torch.device:
     return torch.device(device)
 
 
+def _normalize_predictions(pred: torch.Tensor) -> torch.Tensor:
+    if pred.ndim == 2 and pred.shape[-1] == 1:
+        pred = pred.squeeze(-1)
+    return pred.reshape(-1)
+
+
+def _resolve_model_dir(model_root: Path, model_name: str) -> Path:
+    candidates = [
+        model_root / model_name.lower() / "model",
+        model_root / model_name / "model",
+        model_root / model_name.upper() / "model",
+        model_root / model_name.capitalize() / "model",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
+
+
+def _resolve_state_dict_path(model_dir: Path) -> Path:
+    default_path = model_dir / "state_dict.pt"
+    if default_path.exists():
+        return default_path
+
+    pt_files = sorted(model_dir.glob("*.pt"))
+    if len(pt_files) == 1:
+        return pt_files[0]
+    raise FileNotFoundError(f"could not uniquely resolve state_dict under {model_dir}")
+
+
 class LSTMAdapter(nn.Module):
     def __init__(self, *, state_dict_path: Path, config: dict[str, Any], device: torch.device) -> None:
         super().__init__()
@@ -38,7 +69,7 @@ class LSTMAdapter(nn.Module):
         self.model.to(device)
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
-        return self.model(features)
+        return _normalize_predictions(self.model(features))
 
 
 class _QlibWrapperAdapter(nn.Module):
@@ -46,19 +77,27 @@ class _QlibWrapperAdapter(nn.Module):
 
     def __init__(self, *, state_dict_path: Path, config: dict[str, Any], device: torch.device) -> None:
         super().__init__()
-        module = importlib.import_module(config["qlib_model_module"])
-        wrapper_cls = getattr(module, config["qlib_model_class"])
+        module_name = config.get("qlib_wrapper_module") or config.get("qlib_model_module")
+        class_name = config.get("qlib_wrapper_class") or config.get("qlib_model_class")
+        if module_name is None or class_name is None:
+            raise KeyError("config must provide qlib_wrapper_* or qlib_model_* fields")
+        module = importlib.import_module(module_name)
+        wrapper_cls = getattr(module, class_name)
         kwargs = dict(config["model_kwargs"])
-        kwargs["GPU"] = -1 if device.type == "cpu" else kwargs.get("GPU", 0)
+        signature = inspect.signature(wrapper_cls.__init__)
+        if "GPU" in signature.parameters:
+            kwargs["GPU"] = -1 if device.type == "cpu" else kwargs.get("GPU", 0)
         wrapper = wrapper_cls(**kwargs)
-        inner = getattr(wrapper, self.inner_attr_name)
+        inner_attr_name = config.get("torch_submodule_attr", self.inner_attr_name)
+        inner = getattr(wrapper, inner_attr_name)
         state_dict = torch.load(state_dict_path, map_location=device)
         inner.load_state_dict(state_dict)
         inner.to(device)
+        inner.eval()
         self.model = inner
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
-        return self.model(features)
+        return _normalize_predictions(self.model(features))
 
 
 class TransformerAdapter(_QlibWrapperAdapter):
@@ -90,11 +129,30 @@ def load_model_adapter(
     device: torch.device | str | None = None,
 ) -> nn.Module:
     resolved_device = _resolve_device(device)
-    model_dir = Path(model_root) / model_name.lower() / "model"
-    config = _load_json(model_dir / "model_config.json")
-    adapter_cls = get_model_adapter_class(model_name)
+    model_dir = _resolve_model_dir(Path(model_root), model_name)
+    return load_model_adapter_from_paths(
+        config_path=model_dir / "model_config.json",
+        state_dict_path=_resolve_state_dict_path(model_dir),
+        device=resolved_device,
+        model_name=model_name,
+    )
+
+
+def load_model_adapter_from_paths(
+    *,
+    config_path: str | Path,
+    state_dict_path: str | Path,
+    device: torch.device | str | None = None,
+    model_name: str | None = None,
+) -> nn.Module:
+    resolved_device = _resolve_device(device)
+    config = _load_json(Path(config_path))
+    resolved_model_name = (model_name or config.get("model_name") or "").lower()
+    if not resolved_model_name:
+        raise ValueError("model_name must be provided explicitly or in config")
+    adapter_cls = get_model_adapter_class(resolved_model_name)
     adapter = adapter_cls(
-        state_dict_path=model_dir / "state_dict.pt",
+        state_dict_path=Path(state_dict_path),
         config=config,
         device=resolved_device,
     )

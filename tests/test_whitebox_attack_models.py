@@ -3,7 +3,7 @@ from pathlib import Path
 
 import torch
 
-from whitebox_attack_models import get_model_adapter_class, load_model_adapter
+from whitebox_attack_models import get_model_adapter_class, load_model_adapter, load_model_adapter_from_paths
 
 
 def _write_model_config(path: Path, payload: dict) -> None:
@@ -60,6 +60,35 @@ def _build_temp_transformer_assets(root: Path) -> None:
     )
 
 
+def _build_temp_transformer_probe_style_assets(root: Path) -> tuple[Path, Path]:
+    from qlib.contrib.model.pytorch_transformer_ts import TransformerModel
+
+    wrapper = TransformerModel(d_feat=20, d_model=64, nhead=2, num_layers=2, dropout=0.0, n_jobs=1, GPU=-1)
+    model_dir = root / "Transformer" / "model"
+    model_dir.mkdir(parents=True, exist_ok=True)
+    state_dict_path = model_dir / "transformer_state_dict.pt"
+    config_path = model_dir / "model_config.json"
+    torch.save(wrapper.model.state_dict(), state_dict_path)
+    _write_model_config(
+        config_path,
+        {
+            "model_name": "transformer",
+            "qlib_wrapper_class": "TransformerModel",
+            "qlib_wrapper_module": "qlib.contrib.model.pytorch_transformer_ts",
+            "torch_submodule_attr": "model",
+            "model_kwargs": {
+                "d_feat": 20,
+                "d_model": 64,
+                "nhead": 2,
+                "num_layers": 2,
+                "dropout": 0.0,
+            },
+            "feature_spec": {"d_feat": 20, "step_len": 20},
+        },
+    )
+    return config_path, state_dict_path
+
+
 def _build_temp_tcn_assets(root: Path) -> None:
     from qlib.contrib.model.pytorch_tcn_ts import TCN
 
@@ -102,3 +131,17 @@ def test_load_model_adapter_returns_batch_scores(tmp_path: Path) -> None:
         y = adapter(x)
         assert y.shape == (4,)
         assert torch.isfinite(y).all()
+
+
+def test_load_model_adapter_from_paths_supports_probe_style_config(tmp_path: Path) -> None:
+    config_path, state_dict_path = _build_temp_transformer_probe_style_assets(tmp_path)
+
+    adapter = load_model_adapter_from_paths(
+        config_path=config_path,
+        state_dict_path=state_dict_path,
+        device=torch.device("cpu"),
+    )
+    y = adapter(torch.randn(4, 20, 20))
+
+    assert y.shape == (4,)
+    assert torch.isfinite(y).all()

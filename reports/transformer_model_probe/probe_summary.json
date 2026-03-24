@@ -1,0 +1,13 @@
+{
+  "model_name": "transformer",
+  "config_path": "origin_model_pred/Transformer/model/model_config.json",
+  "state_dict_path": "/home/chainsmoker/qlib_test/origin_model_pred/Transformer/model/transformer_state_dict.pt",
+  "asset_dir": "artifacts/transformer_probe_assets",
+  "sample_count": 64,
+  "pred_finite_rate": 1.0,
+  "pred_mean": -0.00128162931650877,
+  "pred_std": 0.07895994186401367,
+  "mae_to_reference": 2.2819906007498503e-05,
+  "mse_to_reference": 7.805160406881839e-10,
+  "spearman_to_reference": 0.9999999999999998
+}

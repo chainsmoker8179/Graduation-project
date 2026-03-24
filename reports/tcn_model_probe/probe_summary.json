@@ -1,0 +1,13 @@
+{
+  "model_name": "tcn",
+  "config_path": "origin_model_pred/TCN/model/model_config.json",
+  "state_dict_path": "/home/chainsmoker/qlib_test/origin_model_pred/TCN/model/tcn_state_dict.pt",
+  "asset_dir": "artifacts/tcn_probe_assets",
+  "sample_count": 64,
+  "pred_finite_rate": 1.0,
+  "pred_mean": -0.01491557527333498,
+  "pred_std": 0.08050131052732468,
+  "mae_to_reference": 2.9602000722661614e-05,
+  "mse_to_reference": 1.5021177635077265e-09,
+  "spearman_to_reference": 0.9999999999999998
+}
