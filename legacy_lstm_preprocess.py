@@ -12,7 +12,9 @@ class RobustZScoreNormLayer(nn.Module):
         self.clip_outlier = bool(clip_outlier)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        y = (x - self.center) / self.scale
+        center = self.center.view(*([1] * (x.ndim - 1)), -1)
+        safe_x = torch.where(torch.isnan(x), center, x)
+        y = (safe_x - center) / self.scale
         if self.clip_outlier:
             y = torch.clamp(y, min=-3.0, max=3.0)
         return y

@@ -1,0 +1,5 @@
+*
+!.gitignore
+!*/
+!*/model/
+!*/model/model_config.json

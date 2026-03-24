@@ -1,0 +1,48 @@
+{
+  "partial_fgsm_vs_partial_clean": {
+    "annualized_excess_return_with_cost": {
+      "bootstrap_mean": -0.0014284788710889043,
+      "ci95_lower": -0.06934978357549189,
+      "ci95_upper": 0.06898373147716537,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    },
+    "information_ratio_with_cost": {
+      "bootstrap_mean": 0.07355809143825175,
+      "ci95_lower": -0.3871543361791058,
+      "ci95_upper": 0.5854209722340407,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    },
+    "max_drawdown_with_cost": {
+      "bootstrap_mean": 0.0015422683517805364,
+      "ci95_lower": -0.011876173709724418,
+      "ci95_upper": 0.016761928611555725,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    }
+  },
+  "partial_pgd_vs_partial_clean": {
+    "annualized_excess_return_with_cost": {
+      "bootstrap_mean": -0.10016872020811195,
+      "ci95_lower": -0.17411399792740503,
+      "ci95_upper": -0.02510833936898255,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    },
+    "information_ratio_with_cost": {
+      "bootstrap_mean": -0.6482886994961563,
+      "ci95_lower": -1.161317204368621,
+      "ci95_upper": -0.10588482396921811,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    },
+    "max_drawdown_with_cost": {
+      "bootstrap_mean": -0.008920356815350984,
+      "ci95_lower": -0.027381612417538764,
+      "ci95_upper": 0.006525493680495196,
+      "n_bootstrap": 1000,
+      "block_size": 5
+    }
+  }
+}

@@ -128,6 +128,7 @@ def build_matched_reference(
         label_df[[label_col]].rename(columns={label_col: "label"}),
         how="inner",
     )
+    merged = merged.replace([np.inf, -np.inf], np.nan).dropna(subset=["score", "label"])
     if date_from is not None or date_to is not None:
         dt_index = merged.index.get_level_values("datetime")
         mask = pd.Series(True, index=merged.index)

@@ -1,5 +1,6 @@
 import torch
 import pandas as pd
+from types import SimpleNamespace
 
 from partial_attack_backtest import (
     build_comparison_table,
@@ -11,6 +12,8 @@ from partial_attack_backtest import (
     select_attack_subset,
     summarize_backtest_outputs,
 )
+from legacy_lstm_attack_core import CleanGateMetrics
+from scripts.run_partial_attack_backtest import _build_attack_fn
 
 
 def _make_index() -> pd.MultiIndex:
@@ -300,3 +303,101 @@ def test_build_partial_score_tables_reports_selected_and_attackable_counts() -> 
     assert summary["selected_ratio"] > 0
     assert score_tables["partial_clean"].loc[("2025-01-02", "BBB"), "score"] == 1.2
     assert score_tables["partial_fgsm"].loc[("2025-01-03", "BBB"), "score"] == 2.5
+
+
+def test_attack_fn_passes_constraint_arguments(monkeypatch) -> None:
+    calls = []
+
+    class FakeModel(torch.nn.Module):
+        def forward(self, x: torch.Tensor) -> torch.Tensor:
+            return x[:, :, 0].mean(dim=1)
+
+    def fake_run_clean_gate(**kwargs):
+        return CleanGateMetrics(
+            clean_loss=0.1,
+            clean_grad_mean_abs=1e-5,
+            clean_grad_max_abs=1e-3,
+            clean_grad_finite_rate=1.0,
+            feature_finite_rate=1.0,
+            clean_pred_mean=0.0,
+            clean_pred_std=1.0,
+            reference_score_mean=0.0,
+            reference_score_std=1.0,
+            spearman_to_reference=0.9,
+            feature_mae_to_reference=None,
+            feature_rmse_to_reference=None,
+            feature_max_abs_to_reference=None,
+        )
+
+    def fake_validate_clean_gate(metrics, thresholds) -> None:
+        return None
+
+    def fake_fgsm_maximize_mse(**kwargs):
+        calls.append(
+            (
+                "fgsm",
+                kwargs["constraint_mode"],
+                kwargs["tau_ret"],
+                kwargs["lambda_ret"],
+                kwargs["lambda_candle"],
+                kwargs["lambda_vol"],
+            )
+        )
+        return kwargs["x"]
+
+    def fake_pgd_maximize_mse(**kwargs):
+        calls.append(
+            (
+                "pgd",
+                kwargs["constraint_mode"],
+                kwargs["tau_ret"],
+                kwargs["lambda_ret"],
+                kwargs["lambda_candle"],
+                kwargs["lambda_vol"],
+            )
+        )
+        return kwargs["x"]
+
+    monkeypatch.setattr("scripts.run_partial_attack_backtest.run_clean_gate", fake_run_clean_gate)
+    monkeypatch.setattr("scripts.run_partial_attack_backtest.validate_clean_gate", fake_validate_clean_gate)
+    monkeypatch.setattr("scripts.run_partial_attack_backtest.fgsm_maximize_mse", fake_fgsm_maximize_mse)
+    monkeypatch.setattr("scripts.run_partial_attack_backtest.pgd_maximize_mse", fake_pgd_maximize_mse)
+
+    args = SimpleNamespace(
+        attack_batch_size=16,
+        min_clean_grad_mean_abs=1e-6,
+        min_spearman_to_reference=0.09,
+        max_feature_mae_to_reference=0.05,
+        max_feature_rmse_to_reference=0.12,
+        max_feature_max_abs_to_reference=0.7,
+        price_epsilon=0.01,
+        volume_epsilon=0.02,
+        price_floor=1e-6,
+        volume_floor=1.0,
+        pgd_steps=5,
+        pgd_step_size=0.25,
+        constraint_mode="physical_stat",
+        tau_ret=0.005,
+        tau_body=0.005,
+        tau_range=0.01,
+        tau_vol=0.05,
+        lambda_ret=0.8,
+        lambda_candle=0.4,
+        lambda_vol=0.3,
+    )
+    attack_fn = _build_attack_fn(model=FakeModel(), feature_asset=None, device=torch.device("cpu"), args=args)
+
+    selected_subset = {
+        "keys": [("2025-01-02 00:00:00", "AAA")],
+        "ohlcv": torch.ones(1, 2, 5),
+        "label": torch.tensor([0.1], dtype=torch.float32),
+        "score": torch.tensor([0.2], dtype=torch.float32),
+    }
+
+    result = attack_fn(selected_subset)
+
+    assert list(result["clean_scores"].index) == [(pd.Timestamp("2025-01-02 00:00:00"), "AAA")]
+    assert calls == [
+        ("fgsm", "physical_stat", 0.005, 0.8, 0.4, 0.3),
+        ("pgd", "physical_stat", 0.005, 0.8, 0.4, 0.3),
+    ]

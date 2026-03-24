@@ -61,6 +61,25 @@ def test_build_matched_reference_respects_optional_date_range():
     assert list(matched.index) == [(pd.Timestamp("2025-01-02"), "AAA")]
 
 
+def test_build_matched_reference_drops_non_finite_score_or_label_rows():
+    index = pd.MultiIndex.from_tuples(
+        [
+            ("2025-01-02", "AAA"),
+            ("2025-01-02", "BBB"),
+            ("2025-01-02", "CCC"),
+        ],
+        names=["datetime", "instrument"],
+    )
+    pred = pd.DataFrame({"score": [0.1, float("nan"), 0.3]}, index=index)
+    label = pd.DataFrame({"label": [1.1, 1.2, float("nan")]}, index=index)
+
+    matched = build_matched_reference(pred, label)
+
+    assert list(matched.index) == [(pd.Timestamp("2025-01-02"), "AAA")]
+    assert matched.loc[(pd.Timestamp("2025-01-02"), "AAA"), "score"] == 0.1
+    assert matched.loc[(pd.Timestamp("2025-01-02"), "AAA"), "label"] == 1.1
+
+
 def test_extract_normalization_stats_preserves_feature_order():
     processor = SimpleNamespace(
         cols=[("feature", "B"), ("feature", "A")],

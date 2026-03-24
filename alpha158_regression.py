@@ -43,8 +43,10 @@ def rolling_rsquare(x: torch.Tensor, window: int, dim: int = 1, eps: float = _EP
     cov = ((t - t_mean) * (xu - x_mean)).sum(dim=-1)
     var_t = ((t - t_mean) ** 2).sum()
     var_x = ((xu - x_mean) ** 2).sum(dim=-1)
-
-    r2 = (cov ** 2) / (var_t * (var_x + eps))
+    valid = var_x > eps
+    safe_var_x = torch.where(valid, var_x, torch.ones_like(var_x))
+    r2 = (cov ** 2) / (var_t * safe_var_x)
+    r2 = torch.where(valid, r2, torch.full_like(r2, float("nan")))
     return r2
 
 
@@ -79,8 +81,11 @@ def rolling_corr(x: torch.Tensor, y: torch.Tensor, window: int, dim: int = 1, ep
     cov = ((xu - x_mean) * (yu - y_mean)).sum(dim=-1)
     var_x = ((xu - x_mean) ** 2).sum(dim=-1)
     var_y = ((yu - y_mean) ** 2).sum(dim=-1)
-
-    corr = cov / (torch.sqrt(var_x + eps) * torch.sqrt(var_y + eps))
+    valid = (var_x > eps) & (var_y > eps)
+    safe_var_x = torch.where(valid, var_x, torch.ones_like(var_x))
+    safe_var_y = torch.where(valid, var_y, torch.ones_like(var_y))
+    corr = cov / (torch.sqrt(safe_var_x) * torch.sqrt(safe_var_y))
+    corr = torch.where(valid, corr, torch.full_like(corr, float("nan")))
     return corr
 
 

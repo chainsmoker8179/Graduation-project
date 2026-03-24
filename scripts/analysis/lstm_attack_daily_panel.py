@@ -37,9 +37,13 @@ def _with_required_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def load_multiseed_daily_panel(report_root: str | Path) -> pd.DataFrame:
+def load_multiseed_daily_panel(
+    report_root: str | Path,
+    *,
+    seed_root_path: str | Path | None = None,
+) -> pd.DataFrame:
     report_root = Path(report_root)
-    seed_root = report_root / "partial_attack_backtest_multiseed_ratio5_union"
+    seed_root = Path(seed_root_path) if seed_root_path is not None else report_root / "partial_attack_backtest_multiseed_ratio5_union"
     frames: list[pd.DataFrame] = []
     for seed_dir in sorted(seed_root.glob("seed_*")):
         seed = int(seed_dir.name.split("_")[-1])

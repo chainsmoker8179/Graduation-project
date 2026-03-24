@@ -61,6 +61,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pgd-steps", type=int, default=5)
     parser.add_argument("--pgd-step-size", type=float, default=0.25)
     parser.add_argument("--attack-batch-size", type=int, default=256)
+    parser.add_argument("--constraint-mode", type=str, default="physical_stat", choices=["none", "physical", "physical_stat"])
+    parser.add_argument("--tau-ret", type=float, default=0.005)
+    parser.add_argument("--tau-body", type=float, default=0.005)
+    parser.add_argument("--tau-range", type=float, default=0.01)
+    parser.add_argument("--tau-vol", type=float, default=0.05)
+    parser.add_argument("--lambda-ret", type=float, default=0.8)
+    parser.add_argument("--lambda-candle", type=float, default=0.4)
+    parser.add_argument("--lambda-vol", type=float, default=0.3)
     parser.add_argument("--min-clean-grad-mean-abs", type=float, default=1e-6)
     parser.add_argument("--min-spearman-to-reference", type=float, default=0.09)
     parser.add_argument("--max-feature-mae-to-reference", type=float, default=0.05)
@@ -257,6 +265,14 @@ def _build_attack_fn(
                 volume_epsilon=args.volume_epsilon,
                 price_floor=args.price_floor,
                 volume_floor=args.volume_floor,
+                constraint_mode=args.constraint_mode,
+                tau_ret=args.tau_ret,
+                tau_body=args.tau_body,
+                tau_range=args.tau_range,
+                tau_vol=args.tau_vol,
+                lambda_ret=args.lambda_ret,
+                lambda_candle=args.lambda_candle,
+                lambda_vol=args.lambda_vol,
             )
             pgd_x = pgd_maximize_mse(
                 model=model,
@@ -268,6 +284,14 @@ def _build_attack_fn(
                 step_size=args.pgd_step_size,
                 price_floor=args.price_floor,
                 volume_floor=args.volume_floor,
+                constraint_mode=args.constraint_mode,
+                tau_ret=args.tau_ret,
+                tau_body=args.tau_body,
+                tau_range=args.tau_range,
+                tau_vol=args.tau_vol,
+                lambda_ret=args.lambda_ret,
+                lambda_candle=args.lambda_candle,
+                lambda_vol=args.lambda_vol,
             )
             with torch.no_grad():
                 clean_pred = model(x)
@@ -303,6 +327,14 @@ def _write_report(
         "",
         "## 攻击设置",
         "",
+        f"- constraint_mode: {generation_summary['constraint_mode']}",
+        f"- tau_ret: {generation_summary['tau_ret']}",
+        f"- tau_body: {generation_summary['tau_body']}",
+        f"- tau_range: {generation_summary['tau_range']}",
+        f"- tau_vol: {generation_summary['tau_vol']}",
+        f"- lambda_ret: {generation_summary['lambda_ret']}",
+        f"- lambda_candle: {generation_summary['lambda_candle']}",
+        f"- lambda_vol: {generation_summary['lambda_vol']}",
         f"- selected_count: {generation_summary['selected_count']}",
         f"- selected_available_count: {generation_summary['selected_available_count']}",
         f"- selected_missing_count: {generation_summary['selected_missing_count']}",
@@ -371,6 +403,18 @@ def main() -> None:
         sample_asset=sample_asset,
         attack_mask=attack_mask,
         attack_fn=attack_fn,
+    )
+    generation_summary.update(
+        {
+            "constraint_mode": args.constraint_mode,
+            "tau_ret": args.tau_ret,
+            "tau_body": args.tau_body,
+            "tau_range": args.tau_range,
+            "tau_vol": args.tau_vol,
+            "lambda_ret": args.lambda_ret,
+            "lambda_candle": args.lambda_candle,
+            "lambda_vol": args.lambda_vol,
+        }
     )
 
     _init_qlib(args.provider_uri)

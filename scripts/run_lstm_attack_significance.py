@@ -17,12 +17,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build significance statistics for LSTM white-box attack outputs.")
     parser.add_argument("--report-root", type=Path, default=Path("reports"))
     parser.add_argument("--out-dir", type=Path, default=Path("reports/lstm_single_model_evidence"))
+    parser.add_argument("--seed-root-path", type=Path, default=None)
     parser.add_argument("--bootstrap-reps", type=int, default=1000)
     parser.add_argument("--block-size", type=int, default=5)
     parser.add_argument("--random-seed", type=int, default=0)
     args = parser.parse_args()
 
-    panel = load_multiseed_daily_panel(args.report_root)
+    panel = load_multiseed_daily_panel(args.report_root, seed_root_path=args.seed_root_path)
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
     significance_df = build_significance_table(panel)

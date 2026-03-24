@@ -1,0 +1,188 @@
+{
+  "generation": {
+    "selected_count": 52391,
+    "selected_ratio": 0.050081396249176714,
+    "selected_available_count": 50871,
+    "selected_missing_count": 1520,
+    "attackable_count": 50871,
+    "attackable_ratio": 0.0486284038974608,
+    "failed_keys": [],
+    "failure_reasons": {},
+    "constraint_mode": "physical_stat",
+    "tau_ret": 0.005,
+    "tau_body": 0.005,
+    "tau_range": 0.01,
+    "tau_vol": 0.05,
+    "lambda_ret": 0.8,
+    "lambda_candle": 0.4,
+    "lambda_vol": 0.3
+  },
+  "groups": {
+    "reference_clean": {
+      "annualized_excess_return_without_cost": 0.4042980770729514,
+      "annualized_excess_return_with_cost": 0.35583675732017683,
+      "information_ratio_without_cost": 3.0144396210451543,
+      "information_ratio_with_cost": 2.6534604663777004,
+      "max_drawdown_without_cost": -0.05866816371248712,
+      "max_drawdown_with_cost": -0.06930818385370102,
+      "ic_mean": 0.031557804056617685,
+      "icir": 0.26989871960051337,
+      "rank_ic_mean": 0.0753396735420719,
+      "rank_icir": 0.5812465221029594
+    },
+    "partial_clean": {
+      "annualized_excess_return_without_cost": 0.3866131875039683,
+      "annualized_excess_return_with_cost": 0.338210109602982,
+      "information_ratio_without_cost": 2.8500651868832887,
+      "information_ratio_with_cost": 2.493615329988823,
+      "max_drawdown_without_cost": -0.06357018410298415,
+      "max_drawdown_with_cost": -0.07252457257122874,
+      "ic_mean": 0.03161657912187788,
+      "icir": 0.2702463585372869,
+      "rank_ic_mean": 0.07534488060728906,
+      "rank_icir": 0.5811710153769891
+    },
+    "partial_fgsm": {
+      "annualized_excess_return_without_cost": 0.38368233060761425,
+      "annualized_excess_return_with_cost": 0.33502563501022564,
+      "information_ratio_without_cost": 2.7837983481744994,
+      "information_ratio_with_cost": 2.4309475599955763,
+      "max_drawdown_without_cost": -0.08781458599946196,
+      "max_drawdown_with_cost": -0.09528344095591021,
+      "ic_mean": 0.016627354788663853,
+      "icir": 0.15366465865248907,
+      "rank_ic_mean": 0.06426738838219886,
+      "rank_icir": 0.5057585161309258
+    },
+    "partial_pgd": {
+      "annualized_excess_return_without_cost": 0.3535501253402267,
+      "annualized_excess_return_with_cost": 0.3052117674944737,
+      "information_ratio_without_cost": 2.517720690405341,
+      "information_ratio_with_cost": 2.173617769547143,
+      "max_drawdown_without_cost": -0.09254961642490384,
+      "max_drawdown_with_cost": -0.09986788768617735,
+      "ic_mean": 0.01636322582710433,
+      "icir": 0.15148040060285836,
+      "rank_ic_mean": 0.06448195268520163,
+      "rank_icir": 0.5069137934329949
+    }
+  },
+  "comparison": {
+    "reference_clean": {
+      "annualized_excess_return_with_cost": 0.35583675732017683,
+      "annualized_excess_return_without_cost": 0.4042980770729514,
+      "ic_mean": 0.031557804056617685,
+      "icir": 0.26989871960051337,
+      "information_ratio_with_cost": 2.6534604663777004,
+      "information_ratio_without_cost": 3.0144396210451543,
+      "max_drawdown_with_cost": -0.06930818385370102,
+      "max_drawdown_without_cost": -0.05866816371248712,
+      "rank_ic_mean": 0.0753396735420719,
+      "rank_icir": 0.5812465221029594
+    },
+    "partial_clean": {
+      "annualized_excess_return_with_cost": 0.338210109602982,
+      "annualized_excess_return_without_cost": 0.3866131875039683,
+      "ic_mean": 0.03161657912187788,
+      "icir": 0.2702463585372869,
+      "information_ratio_with_cost": 2.493615329988823,
+      "information_ratio_without_cost": 2.8500651868832887,
+      "max_drawdown_with_cost": -0.07252457257122874,
+      "max_drawdown_without_cost": -0.06357018410298415,
+      "rank_ic_mean": 0.07534488060728906,
+      "rank_icir": 0.5811710153769891
+    },
+    "partial_fgsm": {
+      "annualized_excess_return_with_cost": 0.33502563501022564,
+      "annualized_excess_return_without_cost": 0.38368233060761425,
+      "ic_mean": 0.016627354788663853,
+      "icir": 0.15366465865248907,
+      "information_ratio_with_cost": 2.4309475599955763,
+      "information_ratio_without_cost": 2.7837983481744994,
+      "max_drawdown_with_cost": -0.09528344095591021,
+      "max_drawdown_without_cost": -0.08781458599946196,
+      "rank_ic_mean": 0.06426738838219886,
+      "rank_icir": 0.5057585161309258
+    },
+    "partial_pgd": {
+      "annualized_excess_return_with_cost": 0.3052117674944737,
+      "annualized_excess_return_without_cost": 0.3535501253402267,
+      "ic_mean": 0.01636322582710433,
+      "icir": 0.15148040060285836,
+      "information_ratio_with_cost": 2.173617769547143,
+      "information_ratio_without_cost": 2.517720690405341,
+      "max_drawdown_with_cost": -0.09986788768617735,
+      "max_drawdown_without_cost": -0.09254961642490384,
+      "rank_ic_mean": 0.06448195268520163,
+      "rank_icir": 0.5069137934329949
+    },
+    "partial_clean_minus_reference_clean": {
+      "annualized_excess_return_with_cost": -0.017626647717194854,
+      "annualized_excess_return_without_cost": -0.01768488956898312,
+      "ic_mean": 5.8775065260197046e-05,
+      "icir": 0.0003476389367735311,
+      "information_ratio_with_cost": -0.15984513638887732,
+      "information_ratio_without_cost": -0.1643744341618656,
+      "max_drawdown_with_cost": -0.0032163887175277184,
+      "max_drawdown_without_cost": -0.0049020203904970305,
+      "rank_ic_mean": 5.207065217158191e-06,
+      "rank_icir": -7.550672597023134e-05
+    },
+    "partial_fgsm_minus_partial_clean": {
+      "annualized_excess_return_with_cost": -0.0031844745927563367,
+      "annualized_excess_return_without_cost": -0.0029308568963540282,
+      "ic_mean": -0.014989224333214028,
+      "icir": -0.11658169988479783,
+      "information_ratio_with_cost": -0.06266776999324675,
+      "information_ratio_without_cost": -0.06626683870878924,
+      "max_drawdown_with_cost": -0.02275886838468147,
+      "max_drawdown_without_cost": -0.024244401896477807,
+      "rank_ic_mean": -0.01107749222509019,
+      "rank_icir": -0.0754124992460633
+    },
+    "partial_pgd_minus_partial_clean": {
+      "annualized_excess_return_with_cost": -0.03299834210850827,
+      "annualized_excess_return_without_cost": -0.03306306216374161,
+      "ic_mean": -0.01525335329477355,
+      "icir": -0.11876595793442854,
+      "information_ratio_with_cost": -0.31999756044168004,
+      "information_ratio_without_cost": -0.3323444964779476,
+      "max_drawdown_with_cost": -0.027343315114948613,
+      "max_drawdown_without_cost": -0.028979432321919685,
+      "rank_ic_mean": -0.010862927922087429,
+      "rank_icir": -0.0742572219439942
+    }
+  },
+  "backtest_config": {
+    "executor": {
+      "class": "SimulatorExecutor",
+      "module_path": "qlib.backtest.executor",
+      "kwargs": {
+        "time_per_step": "day",
+        "generate_portfolio_metrics": true
+      }
+    },
+    "strategy": {
+      "class": "TopkDropoutStrategy",
+      "module_path": "qlib.contrib.strategy.signal_strategy",
+      "kwargs": {
+        "topk": 50,
+        "n_drop": 5
+      }
+    },
+    "backtest": {
+      "start_time": "2025-01-02",
+      "end_time": "2025-11-03",
+      "account": 100000000.0,
+      "benchmark": "SH000300",
+      "exchange_kwargs": {
+        "freq": "day",
+        "limit_threshold": 0.095,
+        "deal_price": "close",
+        "open_cost": 0.0005,
+        "close_cost": 0.0015,
+        "min_cost": 5.0
+      }
+    }
+  }
+}
