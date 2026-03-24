@@ -13,6 +13,7 @@ import torch.nn.functional as F
 from legacy_lstm_feature_bridge import LegacyLSTMFeatureBridge
 from legacy_lstm_predictor import load_legacy_lstm_from_files
 from legacy_lstm_preprocess import FillnaLayer, RobustZScoreNormLayer
+from whitebox_attack_core import RawFeatureAttackPipeline
 
 
 @dataclass
@@ -50,7 +51,7 @@ class ConstrainedAttackObjective:
     objective: torch.Tensor
 
 
-class LegacyRawLSTMPipeline(nn.Module):
+class LegacyRawLSTMPipeline(RawFeatureAttackPipeline):
     def __init__(
         self,
         normalization_stats: dict[str, Any],
@@ -58,24 +59,16 @@ class LegacyRawLSTMPipeline(nn.Module):
         state_dict_path: Path,
         config_path: Path,
     ) -> None:
-        super().__init__()
-        self.bridge = LegacyLSTMFeatureBridge()
-        self.norm = RobustZScoreNormLayer(
+        bridge = LegacyLSTMFeatureBridge()
+        norm = RobustZScoreNormLayer(
             center=torch.tensor(normalization_stats["center"], dtype=torch.float32),
             scale=torch.tensor(normalization_stats["scale"], dtype=torch.float32),
             clip_outlier=bool(normalization_stats["clip_outlier"]),
         )
-        self.fillna = FillnaLayer()
-        self.predictor = load_legacy_lstm_from_files(config_path=config_path, state_dict_path=state_dict_path)
-
-    def forward_features(self, x: torch.Tensor) -> torch.Tensor:
-        feats = self.bridge(x)
-        feats = self.norm(feats)
-        feats = self.fillna(feats)
-        return feats
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.predictor(self.forward_features(x))
+        fillna = FillnaLayer()
+        predictor = load_legacy_lstm_from_files(config_path=config_path, state_dict_path=state_dict_path)
+        super().__init__(bridge=bridge, norm=norm, fillna=fillna, model=predictor)
+        self.predictor = predictor
 
 
 def relative_budget(
@@ -603,6 +596,7 @@ __all__ = [
     "CleanGateMetrics",
     "CleanGateThresholds",
     "LegacyRawLSTMPipeline",
+    "RawFeatureAttackPipeline",
     "compute_input_gradients",
     "fgsm_maximize_mse",
     "pgd_maximize_mse",

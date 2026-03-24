@@ -1,0 +1,26 @@
+{
+  "model_name": "tcn",
+  "qlib_model_class": "TCN",
+  "qlib_model_module": "qlib.contrib.model.pytorch_tcn_ts",
+  "model_kwargs": {
+    "d_feat": 20,
+    "n_chans": 32,
+    "kernel_size": 7,
+    "num_layers": 5,
+    "dropout": 0.5,
+    "batch_size": 2000,
+    "n_epochs": 200,
+    "lr": 0.0001,
+    "metric": "loss",
+    "early_stop": 20,
+    "loss": "mse",
+    "optimizer": "adam",
+    "n_jobs": 20,
+    "GPU": 0,
+    "seed": null
+  },
+  "feature_spec": {
+    "d_feat": 20,
+    "step_len": 20
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "model_name": "tcn",
+  "config_path": "/home/chainsmoker/qlib_test/.worktrees/multi-model-whitebox-attack/origin_model_pred/TCN/model/model_config.json",
+  "state_dict_path": "/home/chainsmoker/qlib_test/origin_model_pred/TCN/model/tcn_state_dict.pt",
+  "asset_dir": "/home/chainsmoker/qlib_test/.worktrees/multi-model-whitebox-attack/artifacts/tcn_probe_assets",
+  "sample_count": 32,
+  "price_epsilon": 0.01,
+  "volume_epsilon": 0.02,
+  "price_floor": 1e-06,
+  "volume_floor": 1.0,
+  "pgd_steps": 5,
+  "pgd_step_size": 0.25,
+  "clean_gate": {
+    "clean_loss": 0.005089927930384874,
+    "clean_grad_mean_abs": 3.0318955396069214e-05,
+    "clean_grad_max_abs": 0.007051405031234026,
+    "clean_grad_finite_rate": 1.0,
+    "feature_finite_rate": 1.0,
+    "clean_pred_mean": 0.005642671138048172,
+    "clean_pred_std": 0.06487423926591873,
+    "reference_score_mean": 0.0011096503585577011,
+    "reference_score_std": 0.06802210211753845,
+    "spearman_to_reference": 0.9886363636363635,
+    "feature_mae_to_reference": 0.03521132841706276,
+    "feature_rmse_to_reference": 0.09940407425165176,
+    "feature_max_abs_to_reference": 0.607471227645874
+  },
+  "clean_gate_thresholds": {
+    "min_clean_grad_mean_abs": 1e-06,
+    "min_spearman_to_reference": 0.09,
+    "max_feature_mae_to_reference": 0.05,
+    "max_feature_rmse_to_reference": 0.12,
+    "max_feature_max_abs_to_reference": 0.7
+  },
+  "clean_loss": 0.005089927930384874,
+  "fgsm_loss": 0.03265347331762314,
+  "pgd_loss": 0.08102463185787201,
+  "fgsm_usage": {
+    "price_ratio_mean": 0.43378910422325134,
+    "price_ratio_max": 1.000005841255188,
+    "volume_ratio_mean": 0.9964843988418579,
+    "volume_ratio_max": 1.0000028610229492
+  },
+  "pgd_usage": {
+    "price_ratio_mean": 0.27128905057907104,
+    "price_ratio_max": 1.000005841255188,
+    "volume_ratio_mean": 0.7293945550918579,
+    "volume_ratio_max": 1.0000028610229492
+  }
+}

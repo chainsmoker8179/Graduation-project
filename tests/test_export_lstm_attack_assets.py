@@ -12,6 +12,7 @@ from scripts.export_lstm_attack_assets import (
     filter_matched_reference_by_keys,
     select_matched_rows_by_keys,
 )
+from scripts.export_whitebox_attack_assets import build_matched_reference as unified_build_matched_reference
 
 
 def test_build_matched_reference_keeps_only_intersection():
@@ -37,6 +38,30 @@ def test_build_matched_reference_keeps_only_intersection():
     assert list(matched.index) == [(pd.Timestamp("2025-01-02"), "BBB")]
     assert matched.loc[(pd.Timestamp("2025-01-02"), "BBB"), "score"] == 0.2
     assert matched.loc[(pd.Timestamp("2025-01-02"), "BBB"), "label"] == 1.2
+
+
+def test_unified_export_entry_reuses_matched_reference_builder():
+    pred_index = pd.MultiIndex.from_tuples(
+        [
+            ("2025-01-02", "AAA"),
+            ("2025-01-02", "BBB"),
+        ],
+        names=["datetime", "instrument"],
+    )
+    label_index = pd.MultiIndex.from_tuples(
+        [
+            ("2025-01-02", "BBB"),
+            ("2025-01-03", "CCC"),
+        ],
+        names=["datetime", "instrument"],
+    )
+    pred = pd.DataFrame({"score": [0.1, 0.2]}, index=pred_index)
+    label = pd.DataFrame({"label": [1.2, 1.3]}, index=label_index)
+
+    old_matched = build_matched_reference(pred, label)
+    new_matched = unified_build_matched_reference(pred, label)
+
+    pd.testing.assert_frame_equal(new_matched, old_matched)
 
 
 def test_build_matched_reference_respects_optional_date_range():
